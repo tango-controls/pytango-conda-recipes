@@ -10,15 +10,6 @@ build27:
     paths:
       - dist/
 
-build34:
-  stage: build
-  script:
-    - cd $CI_COMMIT_REF_NAME
-    - conda build . --prefix-length=80 --output-folder=../dist/ --python=3.4 --channel=file://conda
-  artifacts:
-    paths:
-      - dist/
-
 build35:
   stage: build
   script:
