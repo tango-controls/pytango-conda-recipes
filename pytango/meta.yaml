@@ -15,15 +15,15 @@ requirements:
   build:
     - gcc
     - tango 9.2.*
-    - boost
+    - boost 1.61.*
     - python
     - numpy
     - pyzmq
   run:
     - libgcc
     - tango 9.2.*
+    - boost 1.61.*
     - python
-    - boost
     - numpy
     - pyzmq
     - six
