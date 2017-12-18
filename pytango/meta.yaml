@@ -42,7 +42,7 @@ test:
     - PyTango
     - tango
   commands:
-    - pytest tests
+    - pytest -k 'server'
 
 about:
   home: http://pytango.rtfd.io
