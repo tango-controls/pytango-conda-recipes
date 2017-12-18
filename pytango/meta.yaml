@@ -16,7 +16,7 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - tango 9.2.*
-    - boost 1.65.*
+    - boost 1.61.*
     - python
     - numpy
     - pyzmq
@@ -29,9 +29,20 @@ requirements:
     - six
 
 test:
+  requires:
+    - pytest
+    - pytest-xdist
+    - gevent
+    - psutil
+    - trollius # [py27]
+  source_files:
+    - tests/
+    - setup.cfg
   imports:
     - PyTango
     - tango
+  commands:
+    - pytest tests
 
 about:
   home: http://pytango.rtfd.io
