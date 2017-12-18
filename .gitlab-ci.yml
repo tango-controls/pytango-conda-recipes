@@ -5,7 +5,7 @@ build27:
   stage: build
   script:
     - cd $CI_COMMIT_REF_NAME
-    - conda build . --output-folder=../dist/ --python=2.7 --channel=file://conda
+    - conda build . --output-folder=../dist/ --python=2.7 --channel=file://conda --channel=conda-forge
   artifacts:
     paths:
       - dist/
@@ -14,7 +14,7 @@ build35:
   stage: build
   script:
     - cd $CI_COMMIT_REF_NAME
-    - conda build . --output-folder=../dist/ --python=3.5 --channel=file://conda
+    - conda build . --output-folder=../dist/ --python=3.5 --channel=file://conda --channel=conda-forge
   artifacts:
     paths:
       - dist/
@@ -23,7 +23,7 @@ build36:
   stage: build
   script:
     - cd $CI_COMMIT_REF_NAME
-    - conda build . --output-folder=../dist/ --python=3.6 --channel=file://conda
+    - conda build . --output-folder=../dist/ --python=3.6 --channel=file://conda --channel=conda-forge
   artifacts:
     paths:
       - dist/
