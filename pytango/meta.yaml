@@ -13,19 +13,19 @@ build:
 
 requirements:
   build:
-    - gcc
+    - {{ compiler('cxx') }}
+  host:
     - tango 9.2.*
     - boost 1.61.*
     - python
     - numpy
     - pyzmq
   run:
-    - libgcc
-    - tango 9.2.*
-    - boost 1.61.*
+    - {{ pin_compatible('tango', max_pin='x.x') }}  # Strict pinning
+    - {{ pin_compatible('boost', max_pin='x.x') }}  # Strict pinning
+    - {{ pin_compatible('pyzmq', min_pin='x') }}  # Loose pinning
+    - {{ pin_compatible('numpy', min_pin='x') }}  # Loose pinning
     - python
-    - numpy
-    - pyzmq
     - six
 
 test:
