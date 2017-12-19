@@ -1,5 +1,5 @@
 diff --git a/ext/base_types.cpp b/ext/base_types.cpp
-index 6b7a2a5..3adcd46 100644
+index 6b7a2a5..468dad1 100644
 --- a/ext/base_types.cpp
 +++ b/ext/base_types.cpp
 @@ -158,7 +158,7 @@ struct convert_PySequence_to_CORBA_Sequence
@@ -11,7 +11,7 @@ index 6b7a2a5..3adcd46 100644
          typedef boost::python::converter::rvalue_from_python_storage<CorbaSequence> CorbaSequence_storage;
  
          void* const storage = reinterpret_cast<CorbaSequence_storage*>(data)->storage.bytes;
-@@ -167,10 +167,9 @@ struct convert_PySequence_to_CORBA_Sequence
+@@ -167,13 +167,12 @@ struct convert_PySequence_to_CORBA_Sequence
          convert2array(object(handle<>(obj)), *ptr);
          data->convertible = storage;
      }
@@ -22,7 +22,11 @@ index 6b7a2a5..3adcd46 100644
 -#if PY_VERSION_HEX < 0x03000000
  bool is_str(PyObject* obj)
  {
-     return PyString_Check(obj) || PyUnicode_Check(obj);
+-    return PyString_Check(obj) || PyUnicode_Check(obj);
++    return PyBytes_Check(obj) || PyUnicode_Check(obj);
+ }
+ 
+ struct StdString_from_python_str_unicode
 @@ -185,7 +184,7 @@ struct StdString_from_python_str_unicode
            &construct,
            boost::python::type_id<std::string>());
