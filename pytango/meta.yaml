@@ -9,6 +9,7 @@ source:
   git_tag: v{{ version }}
   patches:
     - test.patch
+    - string.patch
 
 requirements:
   build:
@@ -41,7 +42,7 @@ test:
     - PyTango
     - tango
   commands:
-    - pytest -k 'server'
+    - pytest
 
 about:
   home: http://pytango.rtfd.io

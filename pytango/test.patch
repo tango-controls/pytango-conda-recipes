@@ -1,114 +1,48 @@
-diff --git a/ext/base_types.cpp b/ext/base_types.cpp
-index 6b7a2a5..3bb94dc 100644
---- a/ext/base_types.cpp
-+++ b/ext/base_types.cpp
-@@ -158,7 +158,7 @@ struct convert_PySequence_to_CORBA_Sequence
-     static void construct(PyObject* obj,
-                           boost::python::converter::rvalue_from_python_stage1_data* data)
-     {
--            
-+
-         typedef boost::python::converter::rvalue_from_python_storage<CorbaSequence> CorbaSequence_storage;
+diff --git a/tests/test_client.py b/tests/test_client.py
+index 9ab8b55..a2203df 100644
+--- a/tests/test_client.py
++++ b/tests/test_client.py
+@@ -15,7 +15,6 @@ and is even likely to crash the device (!)
  
-         void* const storage = reinterpret_cast<CorbaSequence_storage*>(data)->storage.bytes;
-@@ -167,13 +167,12 @@ struct convert_PySequence_to_CORBA_Sequence
-         convert2array(object(handle<>(obj)), *ptr);
-         data->convertible = storage;
-     }
--    
-+
- };
+ from distutils.spawn import find_executable
+ from subprocess import Popen
+-import platform
+ from time import sleep
  
--#if PY_VERSION_HEX < 0x03000000
- bool is_str(PyObject* obj)
- {
--    return PyString_Check(obj) || PyUnicode_Check(obj);
-+    return PyBytes_Check(obj) || PyUnicode_Check(obj);
- }
+ import psutil
+@@ -106,19 +105,15 @@ device_proxy_map = {
+ def get_ports(pid):
+     p = psutil.Process(pid)
+     conns = p.connections(kind="tcp")
+-    # Sorting by family in order to make any IPv6 address go first.
+-    # Otherwise there's a 50% chance that the proxy will just
+-    # hang (presumably because it's connecting on the wrong port)
+-    # This works on my machine, not sure if it's a general
+-    # solution though.
+     conns = reversed(sorted(conns, key=lambda c: c.family))
+-    return [c.laddr[1] for c in conns]
++    # For some reasons, a port on 0.0.0.0 is available, let's discard it
++    return [c.laddr[1] for c in conns if c.laddr[0] != '0.0.0.0']
  
- struct StdString_from_python_str_unicode
-@@ -185,7 +184,7 @@ struct StdString_from_python_str_unicode
-           &construct,
-           boost::python::type_id<std::string>());
-     }
-- 
-+
-     // Determine if obj_ptr can be converted in a std::string
-     static void* convertible(PyObject* obj)
-     {
-@@ -195,7 +194,7 @@ struct StdString_from_python_str_unicode
-         }
-         return obj;
-     }
-- 
-+
-     // Convert obj_ptr into a std::string
-     static void construct(PyObject* obj,
-                           boost::python::converter::rvalue_from_python_stage1_data* data)
-@@ -205,20 +204,20 @@ struct StdString_from_python_str_unicode
-       if (PyUnicode_Check(obj))
-       {
-           decref = true;
--          obj = PyUnicode_AsLatin1String(obj);
-+          obj = PyUnicode_AsUTF8String(obj);
-       }
--      
-+
-       const char* value = PyBytes_AsString(obj);
-- 
-+
-       // Grab pointer to memory into which to construct the new std::string
-       void* storage = (
-         (boost::python::converter::rvalue_from_python_storage<std::string>*)
-         data)->storage.bytes;
-- 
-+
-       // in-place construct the new std::string using the character data
-       // extraced from the python object
-       new (storage) std::string(value);
-- 
-+
-       // Stash the memory chunk pointer for later use by boost.python
-       data->convertible = storage;
  
-@@ -227,8 +226,6 @@ struct StdString_from_python_str_unicode
-     }
- };
+-def start_server(server, inst, device):
++def start_server(host, server, inst, device):
+     exe = find_executable(server)
+-    cmd = ("{0} {1} -ORBendPoint giop:tcp::0 -nodb -dlist {2}"
+-           .format(exe, inst, device))
++    cmd = ("{0} {1} -ORBendPoint giop:tcp:{2}:0 -nodb -dlist {3}"
++           .format(exe, inst, host, device))
+     proc = Popen(cmd.split())
+     proc.poll()
+     return proc
+@@ -157,8 +152,8 @@ def tango_test(request):
+     server = "TangoTest"
+     inst = "test"
+     device = "sys/tg_test/17"
+-    host = platform.node()
+-    proc = start_server(server, inst, device)
++    host = 'localhost'
++    proc = start_server(host, server, inst, device)
+     proxy = wait_for_proxy(host, proc, device, green_mode)
  
--#endif // PY_VERSION_HEX < 0x03000000
--
- int raise_asynch_exception(long thread_id, boost::python::object exp_klass)
- {
-     return PyThreadState_SetAsyncExc(thread_id, exp_klass.ptr());
-@@ -367,10 +364,10 @@ void export_base_types()
-     to_python_converter<Tango::DevVarDoubleStringArray, CORBA_sequence_to_list<Tango::DevVarDoubleStringArray> >();
-     to_python_converter<Tango::DevVarLong64Array, CORBA_sequence_to_list<Tango::DevVarLong64Array> >();
-     to_python_converter<Tango::DevVarULong64Array, CORBA_sequence_to_list<Tango::DevVarULong64Array> >();
--    
-+
-     to_python_converter<Tango::DevEncoded, DevEncoded_to_tuple>();
-     //to_python_converter<unsigned char, UChar_to_str>();
--    
-+
-     convert_PySequence_to_CORBA_Sequence<Tango::DevVarCharArray>();
-     convert_PySequence_to_CORBA_Sequence<Tango::DevVarShortArray>();
-     convert_PySequence_to_CORBA_Sequence<Tango::DevVarLongArray>();
-@@ -394,9 +391,7 @@ void export_base_types()
-     convert_numpy_to_integer<Tango::DEV_LONG64>();
-     convert_numpy_to_integer<Tango::DEV_ULONG64>();
- 
--#if PY_VERSION_HEX < 0x03000000
-     StdString_from_python_str_unicode();
--#endif
- 
-     // from tango_const.h
-     export_poll_device();
-@@ -425,7 +420,7 @@ void export_base_types()
- 
-     export_dev_error();
-     export_time_val();
--    
-+
-     def("raise_asynch_exception", &raise_asynch_exception);
- 
-     def("_get_tango_lib_release", &Tango::_convert_tango_lib_release);
+     yield proxy
