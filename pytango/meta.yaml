@@ -11,6 +11,9 @@ source:
     - test.patch
     - string.patch
 
+build:
+  number: 1
+
 requirements:
   build:
     - {{ compiler('cxx') }}
