@@ -1,4 +1,4 @@
-{% set version = "9.2.2" %}
+{% set version = "9.2.3" %}
 
 package:
   name: pytango
@@ -9,7 +9,6 @@ source:
   git_tag: v{{ version }}
   patches:
     - test.patch
-    - string.patch
 
 build:
   number: 1
