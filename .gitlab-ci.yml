@@ -28,6 +28,15 @@ build36:
     paths:
       - dist/
 
+build37:
+  stage: build
+  script:
+    - cd $CI_COMMIT_REF_NAME
+    - conda build . --output-folder=../dist/ --python=3.7 --channel=file://conda
+  artifacts:
+    paths:
+      - dist/
+
 deploy:
   stage: deploy
   script:
