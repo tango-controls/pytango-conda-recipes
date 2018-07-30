@@ -18,7 +18,7 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - tango 9.2.*
-    - boost 1.60.*
+    - boost
     - python
     - numpy
     - pyzmq
