@@ -1,4 +1,4 @@
-{% set version = "9.2.4" %}
+{% set version = "9.2.5" %}
 
 package:
   name: pytango
@@ -36,7 +36,6 @@ test:
     - pytest
     - pytest-xdist
     - gevent
-    - greenlet 0.4.13 # Temporary fix for gevent issue #1260
     - psutil
     - trollius # [py27]
   source_files:
