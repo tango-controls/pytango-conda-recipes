@@ -32,7 +32,7 @@ build37:
   stage: build
   script:
     - cd $CI_COMMIT_REF_NAME
-    - conda build . --output-folder=../dist/ --python=3.7 --channel=file://conda
+    - conda build . --output-folder=../dist/ --python=3.7.0 --channel=file://conda
   artifacts:
     paths:
       - dist/
