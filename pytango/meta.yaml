@@ -1,4 +1,4 @@
-{% set version = "9.2.6" %}
+{% set version = "9.2.5" %}
 
 package:
   name: pytango
