@@ -7,7 +7,7 @@ build27:
   stage: build
   script:
     - cd pytango
-    - conda build -b --prefix-length=60 --output-folder=../dist/ --python=2.7 .
+    - conda build --no-anaconda-upload --prefix-length=60 --output-folder=../dist/ --python=2.7 .
   artifacts:
     paths:
       - dist/
@@ -16,7 +16,7 @@ build35:
   stage: build
   script:
     - cd pytango
-    - conda build -b --prefix-length=60 --output-folder=../dist/ --python=3.5 .
+    - conda build --no-anaconda-upload --prefix-length=60 --output-folder=../dist/ --python=3.5 .
   artifacts:
     paths:
       - dist/
@@ -25,7 +25,7 @@ build36:
   stage: build
   script:
     - cd pytango
-    - conda build -b --prefix-length=60 --output-folder=../dist/ --python=3.6 .
+    - conda build --no-anaconda-upload --prefix-length=60 --output-folder=../dist/ --python=3.6 .
   artifacts:
     paths:
       - dist/
@@ -34,7 +34,7 @@ build37:
   stage: build
   script:
     - cd pytango
-    - conda build -b --prefix-length=60 --output-folder=../dist/ --python=3.7 .
+    - conda build --no-anaconda-upload --prefix-length=60 --output-folder=../dist/ --python=3.7 .
   artifacts:
     paths:
       - dist/
@@ -42,7 +42,7 @@ build37:
 deploy:
   stage: deploy
   script:
-    - anaconda upload --channel=tango-controls --token=$ANACONDA_TOKEN dist/linux-64/*.tar.bz2
+    - anaconda --token="$ANACONDA_TOKEN" upload dist/linux-64/*.tar.bz2
   only:
     - master
 
