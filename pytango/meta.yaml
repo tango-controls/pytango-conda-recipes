@@ -1,4 +1,4 @@
-{% set version = "9.2.5" %}
+{% set version = "9.3.0" %}
 
 package:
   name: pytango
@@ -17,7 +17,7 @@ requirements:
   build:
     - {{ compiler('cxx') }}
   host:
-    - tango 9.2.*
+    - tango 9.3.*
     - boost
     - python
     - numpy
