@@ -19,11 +19,9 @@ requirements:
     - boost
     - python
     - numpy
-    - pyzmq
   run:
     - {{ pin_compatible('tango', max_pin='x.x') }}  # Strict pinning
     - {{ pin_compatible('boost', max_pin='x.x') }}  # Strict pinning
-    - {{ pin_compatible('pyzmq', min_pin='x') }}  # Loose pinning
     - {{ pin_compatible('numpy', min_pin='x') }}  # Loose pinning
     - python
     - six
