@@ -33,7 +33,8 @@ build37:
 deploy:
   stage: deploy
   script:
-    - anaconda --token="$ANACONDA_TOKEN" upload dist/linux-64/*.tar.bz2
+    - echo "Deploy to anaconda cloud"
+    - anaconda --token="$ANACONDA_TOKEN" -u tango-controls upload dist/linux-64/*.tar.bz2
   only:
     - master
-
+  when: manual
