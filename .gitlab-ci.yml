@@ -12,15 +12,6 @@ build27:
     paths:
       - dist/
 
-build35:
-  stage: build
-  script:
-    - cd pytango
-    - conda build --no-anaconda-upload --prefix-length=60 --output-folder=../dist/ --python=3.5 .
-  artifacts:
-    paths:
-      - dist/
-
 build36:
   stage: build
   script:
