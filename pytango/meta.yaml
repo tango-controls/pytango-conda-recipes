@@ -24,7 +24,7 @@ requirements:
     - {{ pin_compatible('boost', max_pin='x.x') }}  # Strict pinning
     - {{ pin_compatible('numpy', min_pin='x') }}  # Loose pinning
     - python
-    - six
+    - six >=1.12
     - enum34 # [py27]
 
 test:
