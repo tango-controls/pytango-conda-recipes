@@ -1,4 +1,4 @@
-{% set version = "9.3.1" %}
+{% set version = "9.3.2" %}
 
 package:
   name: pytango
@@ -17,16 +17,17 @@ requirements:
   build:
     - {{ compiler('cxx') }}
   host:
-    - tango 9.3.*
+    - cppzmq
+    - cpptango 9.3*
     - boost
     - python
-    - numpy
+    - numpy >=1.1
   run:
-    - {{ pin_compatible('tango', max_pin='x.x') }}  # Strict pinning
+    - {{ pin_compatible('cpptango', max_pin='x.x') }}  # Strict pinning
     - {{ pin_compatible('boost', max_pin='x.x') }}  # Strict pinning
     - {{ pin_compatible('numpy', min_pin='x') }}  # Loose pinning
     - python
-    - six >=1.12
+    - six >=1.10
     - enum34 # [py27]
 
 test:
