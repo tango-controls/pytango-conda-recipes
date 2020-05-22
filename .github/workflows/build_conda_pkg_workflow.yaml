@@ -22,11 +22,17 @@ jobs:
           auto-update-conda: true
           activate-environment: conda_pkg_build_env
           channels: conda-forge,tango-controls
-      - name: install conda-build and conda-verify
+      - name: install conda-build
         shell: bash -l {0}
         run: |
           conda install conda-build
+      - name: install conda-verify
+        shell: bash -l {0}
+        run: |
           conda install conda-verify
+      - name: conda info
+        shell: bash -l {0}
+        run: |
           conda info
       - name: Build pytango Conda package
         shell: bash -l {0}
