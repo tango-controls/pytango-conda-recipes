@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        python_version: [2.7, 3.5, 3.6, 3.7]
+        python_version: [3.7]
     name: Build pytango conda packages for python ${{ matrix.python_version }}
     # This job runs on Linux
     runs-on: ubuntu-latest
