@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        python_version: [3.6, 3.7]
+        python_version: [2.7, 3.5, 3.6, 3.7]
     name: Build pytango conda packages for python ${{ matrix.python_version }}
     # This job runs on Linux
     runs-on: ubuntu-latest
@@ -24,13 +24,11 @@ jobs:
         with:
           auto-update-conda: true
           activate-environment: conda_pkg_build_env
-          python_version: ${{ matrix.python_version }}
+          python-version: ${{ matrix.python_version }}
       - name: install conda-build
         shell: bash -l {0}
         run: |
-          conda info
           conda install conda-build
-          conda info
       - name: install conda-verify
         shell: bash -l {0}
         run: |
