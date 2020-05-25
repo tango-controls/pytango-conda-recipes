@@ -21,11 +21,12 @@ jobs:
         with:
           auto-update-conda: true
           activate-environment: conda_pkg_build_env
-          channels: conda-forge,tango-controls
       - name: install conda-build
         shell: bash -l {0}
         run: |
+          conda info
           conda install conda-build
+          conda info
       - name: install conda-verify
         shell: bash -l {0}
         run: |
@@ -37,7 +38,7 @@ jobs:
       - name: Build pytango Conda package
         shell: bash -l {0}
         run: |
-          conda build $GITHUB_WORKSPACE/pytango --output-folder=$GITHUB_WORKSPACE/dist
+          conda build -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --output-folder=$GITHUB_WORKSPACE/dist
       - name: Upload pytango Conda Package as artifact
         uses: actions/upload-artifact@v2
         with:
