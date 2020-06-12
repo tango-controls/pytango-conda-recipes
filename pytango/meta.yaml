@@ -18,7 +18,7 @@ requirements:
     - cppzmq
     - cpptango 9.3*
     - boost
-    - python <3.8
+    - python {{ python }}
     - numpy >=1.1
   run:
     - {{ pin_compatible('cpptango', max_pin='x.x') }}  # Strict pinning
