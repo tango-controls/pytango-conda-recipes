@@ -17,7 +17,7 @@ requirements:
   host:
     - cppzmq
     - cpptango 9.3*
-    - boost <=1.67.0
+    - boost
     - python <3.8
     - numpy >=1.1
   run:
