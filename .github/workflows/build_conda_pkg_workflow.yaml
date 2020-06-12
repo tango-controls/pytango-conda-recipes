@@ -38,9 +38,11 @@ jobs:
         run: |
           conda info
       - name: Build pytango Conda package
+        env:
+          MATRIX_PYTHON_VERSION: ${{ matrix.python_version }}
         shell: bash -l {0}
         run: |
-          conda build -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --output-folder=$GITHUB_WORKSPACE/dist --python=${{ matrix.python-version }}
+          conda build -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --output-folder=$GITHUB_WORKSPACE/dist --python=$MATRIX_PYTHON_VERSION
       - name: Upload pytango Conda Package as artifact
         uses: actions/upload-artifact@v2
         with:
