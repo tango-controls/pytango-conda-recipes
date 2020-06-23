@@ -5,6 +5,9 @@ on: [push, pull_request]
 jobs:
   build:
     name: Build pytango conda packages
+    strategy:
+      matrix:
+        python_version: [py27, py35, py36, py37]
     # This job runs on Linux
     runs-on: ubuntu-latest
 
@@ -36,7 +39,7 @@ jobs:
       - name: Build pytango Conda package
         shell: bash -l {0}
         run: |
-          conda build -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --output-folder=$GITHUB_WORKSPACE/dist
+          conda build -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --variant-config-files $GITHUB_WORKSPACE/.github/conda_build_config_files/conda_build_config-${{ matrix.python_version }}.yaml --output-folder=$GITHUB_WORKSPACE/dist
       - name: Upload pytango Conda Package as artifact
         uses: actions/upload-artifact@v2
         with:
