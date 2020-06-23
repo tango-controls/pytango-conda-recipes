@@ -6,6 +6,7 @@ jobs:
   build:
     name: Build pytango conda packages
     strategy:
+      fail-fast: false
       matrix:
         python_version: [py27, py35, py36, py37]
     # This job runs on Linux
