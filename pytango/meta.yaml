@@ -16,7 +16,7 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - cppzmq
-    - cpptango 9.3*
+    - cpptango >=9.3,<9.4
     - boost
     - python {{ python }}
     - numpy >=1.1
