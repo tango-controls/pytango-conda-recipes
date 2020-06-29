@@ -40,7 +40,7 @@ jobs:
       - name: Build pytango Conda package
         shell: bash -l {0}
         run: |
-          conda build -c conda-forge -c Reyn4ld -c tango-controls $GITHUB_WORKSPACE/pytango --variant-config-files $GITHUB_WORKSPACE/.github/conda_build_config_files/conda_build_config-${{ matrix.python_version }}.yaml --output-folder=$GITHUB_WORKSPACE/dist-${{ matrix.python_version }}
+          conda build -c main -c conda-forge -c Reyn4ld -c tango-controls $GITHUB_WORKSPACE/pytango --variant-config-files $GITHUB_WORKSPACE/.github/conda_build_config_files/conda_build_config-${{ matrix.python_version }}.yaml --output-folder=$GITHUB_WORKSPACE/dist-${{ matrix.python_version }}
       - name: Upload pytango Conda Package as artifact
         uses: actions/upload-artifact@v2
         with:
