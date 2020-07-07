@@ -1,0 +1,48 @@
+name: Build pytango conda package
+# This workflow is triggered on pushes and PR to the repository.
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build pytango conda packages
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version: [py27, py35, py36, py37]
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      # This step check out a copy of your repository
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      # Display OS release
+      - name: Display os-release
+        run: cat /etc/os-release
+      # Setup miniconda
+      - name: Setup miniconda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+          auto-update-conda: true
+          activate-environment: conda_pkg_build_env
+      - name: install conda-build
+        shell: bash -l {0}
+        run: |
+          conda install conda-build
+      - name: install conda-verify
+        shell: bash -l {0}
+        run: |
+          conda install conda-verify
+      - name: conda info
+        shell: bash -l {0}
+        run: |
+          conda info
+      - name: Build pytango Conda package
+        shell: bash -l {0}
+        run: |
+          conda build -c main -c conda-forge -c tango-controls $GITHUB_WORKSPACE/pytango --variant-config-files $GITHUB_WORKSPACE/.github/conda_build_config_files/conda_build_config-${{ matrix.python_version }}.yaml --output-folder=$GITHUB_WORKSPACE/dist-${{ matrix.python_version }}
+      - name: Upload pytango Conda Package as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pytango-${{ matrix.python_version }}-linux-64-conda-package
+          path: dist-${{ matrix.python_version }}/linux-64/pytango*.bz2
