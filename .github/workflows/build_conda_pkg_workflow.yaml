@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: [py27, py35, py36, py37]
+        python_version: [py27, py35, py36, py37, py38]
     # This job runs on Linux
     runs-on: ubuntu-latest
 
